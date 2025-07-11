@@ -2,7 +2,7 @@ import os
 from fastapi import APIRouter, Depends, UploadFile, File, Form, HTTPException
 from sqlalchemy.orm import Session
 from models.models import Track, User
-from dependencies import get_current_user, get_db
+from routers.dependencies import get_current_user, get_db
 from schemas.schemas import TrackCreate, TrackOut
 from fastapi.responses import FileResponse
 

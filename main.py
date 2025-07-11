@@ -2,14 +2,15 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from routers.track import router as track_router
 from routers.auth import router as auth_router
+from routers.playlist import router as playlist_router
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from fastapi import Request
-from db.database import Base, engine
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 app.include_router(track_router)
+app.include_router(playlist_router)
 app.include_router(auth_router)
 
 templates = Jinja2Templates(directory="templates")
