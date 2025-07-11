@@ -21,3 +21,15 @@ class TrackOut(TrackBase):
 
     class Config:
         orm_mode = True
+
+
+class PlaylistBase(BaseModel):
+    name: str
+
+
+class PlaylistOut(PlaylistBase):
+    id: int
+    user_id: int
+
+    class Config:
+        orm_mode = True
