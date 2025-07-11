@@ -23,21 +23,18 @@ class TrackOut(TrackBase):
         orm_mode = True
 
 
-class UserBase(BaseModel):
+class UserCreate(BaseModel):
+    username: str
+    email: str
+    password: str
+
+class UserOut(BaseModel):
+    id: int
     username: str
     email: str
 
-
-class UserCreate(UserBase):
-    password: str
-
-
-class UserOut(UserBase):
-    id: int
-
     class Config:
         orm_mode = True
-
 
 class Token(BaseModel):
     access_token: str
