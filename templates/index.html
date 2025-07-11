@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AudioServer</title>
+</head>
+
+<body>
+    <h1>🎵 Список треків</h1>
+    <ul>
+        {% for track in tracks %}
+            <li>
+                <strong>{{ track.title }}</strong>
+                <audio controls>
+                    <source src="/tracks/play/{{ track.id }}" type="audio/mpeg">
+                    Ваш браузер не підтримує аудіо.
+                </audio>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Завантажити трек</h2>
+    <form action="/tracks/add" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <button type="submit">Завантажити</button>
+    </form>
+
+    <h2>Видалити трек</h2>
+    <form action="/tracks/delete/1" method="post" onsubmit="event.preventDefault(); deleteTrack();">
+        <input type="number" id="deleteId" name="id" placeholder="ID треку" required>
+        <button type="submit">Видалити</button>
+    </form>
+
+    <h2>Пошук треків</h2>
+    <form action="/tracks/search" method="get">
+        <input type="text" name="query" placeholder="Пошук">
+        <button type="submit">Шукати</button>
+    </form>
+
+    <script>
+        function deleteTrack() {
+            const id = document.getElementById('deleteId').value;
+            fetch(`/tracks/delete/${id}`, {
+                method: 'DELETE'
+            }).then(() => location.reload());
+        }
+    </script>
+</body>
+</html>
