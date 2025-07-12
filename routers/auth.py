@@ -1,5 +1,5 @@
 import secrets
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -43,14 +43,13 @@ def authenticate_user(db: Session, username: str, password: str):
     return user
 
 
-def create_access_token(
-    *, username: str, expires_delta: timedelta | None = None
-) -> str:
-    to_encode = {"sub": username}
-    expire = datetime.utcnow() + (
-        expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    )
-    to_encode.update({"exp": expire})
+def create_access_token(username: str) -> str:
+    to_encode = {
+        "sub": username,
+        "exp": datetime.now(timezone.utc)
+        + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES),
+    }
+
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 
